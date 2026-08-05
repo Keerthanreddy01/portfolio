@@ -311,6 +311,9 @@ export const MY_EXPERIENCE = [
         description:
             'Working as Tech Lead at Viswam Internship, guiding and mentoring a dynamic team of interns and developers. Focused on driving technical excellence across projects — designing scalable solutions, reviewing code, troubleshooting bugs, and setting best practices. Love turning challenges into learning opportunities for the whole team.',
     },
+];
+
+export const MY_EDUCATION = [
     {
         title: 'B.Tech Artificial Intelligence',
         company: "St. Peter's Engineering College",

@@ -1,6 +1,6 @@
 'use client';
 import SectionTitle from '@/components/SectionTitle';
-import { MY_EXPERIENCE } from '@/lib/data';
+import { MY_EDUCATION, MY_EXPERIENCE } from '@/lib/data';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
@@ -9,11 +9,13 @@ import { useRef, useState } from 'react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/* ── Single expandable experience card ── */
+/* ── Single expandable card (shared by Experience & Education) ── */
 const ExperienceItem = ({
     item,
+    animClass,
 }: {
-    item: (typeof MY_EXPERIENCE)[0];
+    item: { title: string; company: string; duration: string; description?: string };
+    animClass: string;
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const descRef = useRef<HTMLDivElement>(null);
@@ -52,7 +54,7 @@ const ExperienceItem = ({
     };
 
     return (
-        <div className="experience-item">
+        <div className={animClass}>
             <p className="text-xl text-muted-foreground">{item.company}</p>
 
             <div
@@ -87,13 +89,15 @@ const ExperienceItem = ({
 
 /* ── Section wrapper ── */
 const Experiences = () => {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const expRef = useRef<HTMLDivElement>(null);
+    const eduRef = useRef<HTMLDivElement>(null);
 
+    /* Experience scroll-in */
     useGSAP(
         () => {
             const tl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: containerRef.current,
+                    trigger: expRef.current,
                     start: 'top 60%',
                     end: 'bottom 50%',
                     toggleActions: 'restart none none reverse',
@@ -102,35 +106,92 @@ const Experiences = () => {
             });
             tl.from('.experience-item', { y: 50, opacity: 0, stagger: 0.3 });
         },
-        { scope: containerRef },
+        { scope: expRef },
     );
 
+    /* Experience scroll-out */
     useGSAP(
         () => {
             const tl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: containerRef.current,
+                    trigger: expRef.current,
                     start: 'bottom 50%',
                     end: 'bottom 20%',
                     scrub: 1,
                 },
             });
-            tl.to(containerRef.current, { y: -150, opacity: 0 });
+            tl.to(expRef.current, { y: -150, opacity: 0 });
         },
-        { scope: containerRef },
+        { scope: expRef },
+    );
+
+    /* Education scroll-in */
+    useGSAP(
+        () => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: eduRef.current,
+                    start: 'top 60%',
+                    end: 'bottom 50%',
+                    toggleActions: 'restart none none reverse',
+                    scrub: 1,
+                },
+            });
+            tl.from('.education-item', { y: 50, opacity: 0, stagger: 0.3 });
+        },
+        { scope: eduRef },
+    );
+
+    /* Education scroll-out */
+    useGSAP(
+        () => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: eduRef.current,
+                    start: 'bottom 50%',
+                    end: 'bottom 20%',
+                    scrub: 1,
+                },
+            });
+            tl.to(eduRef.current, { y: -150, opacity: 0 });
+        },
+        { scope: eduRef },
     );
 
     return (
-        <section className="py-section" id="my-experience">
-            <div className="container" ref={containerRef}>
-                <SectionTitle title="My Experience" />
-                <div className="grid gap-14">
-                    {MY_EXPERIENCE.map((item) => (
-                        <ExperienceItem key={item.title} item={item} />
-                    ))}
+        <>
+            {/* ── Experience ── */}
+            <section className="py-section" id="my-experience">
+                <div className="container" ref={expRef}>
+                    <SectionTitle title="My Experience" />
+                    <div className="grid gap-14">
+                        {MY_EXPERIENCE.map((item) => (
+                            <ExperienceItem
+                                key={item.title}
+                                item={item}
+                                animClass="experience-item"
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            {/* ── Education ── */}
+            <section className="py-section" id="my-education">
+                <div className="container" ref={eduRef}>
+                    <SectionTitle title="My Education" />
+                    <div className="grid gap-14">
+                        {MY_EDUCATION.map((item) => (
+                            <ExperienceItem
+                                key={item.title}
+                                item={item}
+                                animClass="education-item"
+                            />
+                        ))}
+                    </div>
+                </div>
+            </section>
+        </>
     );
 };
 

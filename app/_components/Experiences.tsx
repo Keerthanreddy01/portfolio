@@ -177,7 +177,7 @@ const Experiences = () => {
             </section>
 
             {/* ── Education ── */}
-            <section className="py-section" id="my-education">
+            <section className="pb-section" id="my-education">
                 <div className="container" ref={eduRef}>
                     <SectionTitle title="My Education" />
                     <div className="grid gap-14">

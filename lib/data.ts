@@ -106,7 +106,7 @@ export const PROJECTS: IProject[] = [
     {
         title: 'CollabSphere',
         slug: 'collabsphere',
-        sourceCode: 'https://github.com/Keerthanreddy01/Collabsphere',
+        sourceCode: 'https://github.com/Keerthanreddy01/collabsphere-web',
         year: 2025,
         description: `
       CollabSphere is an elite incubator platform for developers — sync your GitHub arsenal to discover the perfect squad and ship high-impact projects without friction. <br/> <br/>

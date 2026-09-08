@@ -159,36 +159,40 @@ const ProjectDetails = ({ project }: Props) => {
                             )}
                         </div>
 
-                        <ArrowAnimation />
+                        {project.images && project.images.length > 0 && (
+                            <ArrowAnimation />
+                        )}
                     </div>
                 </div>
 
-                <div
-                    className="fade-in-later relative flex flex-col gap-2 max-w-[800px] mx-auto"
-                    id="images"
-                >
-                    {project.images.map((image) => (
-                        <div
-                            key={image}
-                            className="group relative w-full rounded-xl overflow-hidden bg-background-light border border-border"
-                        >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                                src={image}
-                                alt="Project Screenshot"
-                                className="w-full h-auto object-contain"
-                            />
-                            <a
-                                href={image}
-                                target="_blank"
-                                rel="noreferrer noopener"
-                                className="absolute top-4 right-4 bg-background/70 text-foreground size-12 inline-flex justify-center items-center transition-all opacity-0 hover:bg-primary hover:text-primary-foreground group-hover:opacity-100 rounded-md"
+                {project.images && project.images.length > 0 && (
+                    <div
+                        className="fade-in-later relative flex flex-col gap-2 max-w-[800px] mx-auto"
+                        id="images"
+                    >
+                        {project.images.map((image) => (
+                            <div
+                                key={image}
+                                className="group relative w-full rounded-xl overflow-hidden bg-background-light border border-border"
                             >
-                                <ExternalLink />
-                            </a>
-                        </div>
-                    ))}
-                </div>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src={image}
+                                    alt="Project Screenshot"
+                                    className="w-full h-auto object-contain"
+                                />
+                                <a
+                                    href={image}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                    className="absolute top-4 right-4 bg-background/70 text-foreground size-12 inline-flex justify-center items-center transition-all opacity-0 hover:bg-primary hover:text-primary-foreground group-hover:opacity-100 rounded-md"
+                                >
+                                    <ExternalLink />
+                                </a>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );

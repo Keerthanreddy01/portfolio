@@ -330,11 +330,6 @@ export const PROJECTS: IProject[] = [
             'Python',
             'PostgreSQL',
         ],
-        thumbnail: '/projects/thumbnail/veyro.webp',
-        longThumbnail: '/projects/long/veyro.webp',
-        images: [
-            '/projects/images/veyro-1.webp',
-        ],
     },
 ];
 

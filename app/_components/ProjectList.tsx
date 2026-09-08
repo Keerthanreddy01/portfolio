@@ -60,6 +60,17 @@ const ProjectList = () => {
                     });
                 }
 
+                // if selected project has no thumbnail, hide image
+                const activeProj = PROJECTS.find(
+                    (p) => p.slug === selectedProject,
+                );
+                if (!activeProj?.thumbnail) {
+                    return gsap.to(imageContainer.current, {
+                        duration: 0.2,
+                        opacity: 0,
+                    });
+                }
+
                 gsap.to(imageContainer.current, {
                     y: offsetTop - imageRect.height / 2,
                     duration: 1,
@@ -73,7 +84,7 @@ const ProjectList = () => {
                 window.removeEventListener('mousemove', handleMouseMove);
             };
         },
-        { scope: containerRef, dependencies: [containerRef.current] },
+        { scope: containerRef, dependencies: [containerRef.current, selectedProject] },
     );
 
     useGSAP(
@@ -102,6 +113,18 @@ const ProjectList = () => {
             return;
         }
 
+        const project = PROJECTS.find((p) => p.slug === slug);
+        if (!project?.thumbnail) {
+            setSelectedProject(null);
+            if (imageContainer.current) {
+                gsap.to(imageContainer.current, {
+                    duration: 0.2,
+                    opacity: 0,
+                });
+            }
+            return;
+        }
+
         setSelectedProject(slug);
     };
 
@@ -118,24 +141,26 @@ const ProjectList = () => {
                             )}
                             ref={imageContainer}
                         >
-                            {PROJECTS.map((project) => (
-                                <Image
-                                    src={project.thumbnail}
-                                    alt="Project"
-                                    width="500"
-                                    height="500"
-                                    className={cn(
-                                        'absolute inset-0 transition-all duration-500 w-full h-full object-contain',
-                                        {
-                                            'opacity-0':
-                                                project.slug !==
-                                                selectedProject,
-                                        },
-                                    )}
-                                    ref={imageRef}
-                                    key={project.slug}
-                                />
-                            ))}
+                            {PROJECTS.filter((p) => Boolean(p.thumbnail)).map(
+                                (project) => (
+                                    <Image
+                                        src={project.thumbnail!}
+                                        alt="Project"
+                                        width="500"
+                                        height="500"
+                                        className={cn(
+                                            'absolute inset-0 transition-all duration-500 w-full h-full object-contain',
+                                            {
+                                                'opacity-0':
+                                                    project.slug !==
+                                                    selectedProject,
+                                            },
+                                        )}
+                                        ref={imageRef}
+                                        key={project.slug}
+                                    />
+                                ),
+                            )}
                         </div>
                     )}
 

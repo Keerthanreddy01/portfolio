@@ -10,7 +10,7 @@ import { useRef } from 'react';
 interface Props {
     index: number;
     project: IProject;
-    selectedProject: string | null;
+    selectedProject?: string | null;
     onMouseEnter: (_slug: string) => void;
     onMouseLeave?: () => void;
 }
@@ -35,7 +35,6 @@ gsap.registerPlugin(useGSAP);
 const Project = ({
     index,
     project,
-    selectedProject,
     onMouseEnter,
     onMouseLeave,
 }: Props) => {
@@ -116,14 +115,14 @@ const Project = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            {selectedProject === null && project.thumbnail && (
+            {project.thumbnail && (
                 <Image
                     src={project.thumbnail}
                     alt="Project"
                     width="300"
                     height="200"
                     className={cn(
-                        'w-full object-cover mb-6 aspect-[3/2] object-top',
+                        'md:hidden w-full object-cover mb-6 aspect-[3/2] object-top',
                     )}
                     key={project.slug}
                     loading="lazy"

@@ -6,7 +6,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import Image from 'next/image';
-import React, { useRef, useState, MouseEvent } from 'react';
+import React, { useRef, useState } from 'react';
 import Project from './Project';
 import Button from '@/components/Button';
 import { Github } from 'lucide-react';
@@ -17,66 +17,53 @@ const ProjectList = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const projectListRef = useRef<HTMLDivElement>(null);
     const imageContainer = useRef<HTMLDivElement>(null);
-    const imageRef = useRef<HTMLImageElement>(null);
-    const [selectedProject, setSelectedProject] = useState<string | null>(
-        PROJECTS[0].slug,
-    );
+    const [selectedProject, setSelectedProject] = useState<string | null>(null);
+    const selectedProjectRef = useRef<string | null>(null);
 
-    // update imageRef.current href based on the cursor hover position
-    // also update image position
+    // Keep ref in sync with state without tearing down event listeners
+    selectedProjectRef.current = selectedProject;
+
+    // Smooth floating image position following cursor with GSAP
     useGSAP(
-        (context, contextSafe) => {
-            // show image on hover
-            if (window.innerWidth < 768) {
-                setSelectedProject(null);
-                return;
-            }
+        () => {
+            if (window.innerWidth < 768) return;
 
-            const handleMouseMove = contextSafe?.((e: MouseEvent) => {
-                if (!containerRef.current) return;
-                if (!imageContainer.current) return;
+            const handleMouseMove = (e: globalThis.MouseEvent) => {
+                if (!containerRef.current || !imageContainer.current) return;
+                if (!selectedProjectRef.current) return;
 
-                if (window.innerWidth < 768) {
-                    setSelectedProject(null);
+                const containerRect =
+                    containerRef.current.getBoundingClientRect();
+                const imageRect =
+                    imageContainer.current.getBoundingClientRect();
+
+                // if cursor is outside the container bounds, smoothly hide
+                if (
+                    e.clientY < containerRect.top ||
+                    e.clientY > containerRect.bottom ||
+                    e.clientX < containerRect.left ||
+                    e.clientX > containerRect.right
+                ) {
+                    gsap.to(imageContainer.current, {
+                        opacity: 0,
+                        scale: 0.95,
+                        duration: 0.25,
+                        ease: 'power2.out',
+                        overwrite: 'auto',
+                    });
                     return;
                 }
 
-                const containerRect =
-                    containerRef.current?.getBoundingClientRect();
-                const imageRect =
-                    imageContainer.current.getBoundingClientRect();
-                const offsetTop = e.clientY - containerRect.y;
-
-                // if cursor is outside the container, hide the image
-                if (
-                    containerRect.y > e.clientY ||
-                    containerRect.bottom < e.clientY ||
-                    containerRect.x > e.clientX ||
-                    containerRect.right < e.clientX
-                ) {
-                    return gsap.to(imageContainer.current, {
-                        duration: 0.3,
-                        opacity: 0,
-                    });
-                }
-
-                // if selected project has no thumbnail, hide image
-                const activeProj = PROJECTS.find(
-                    (p) => p.slug === selectedProject,
-                );
-                if (!activeProj?.thumbnail) {
-                    return gsap.to(imageContainer.current, {
-                        duration: 0.2,
-                        opacity: 0,
-                    });
-                }
+                const offsetTop = e.clientY - containerRect.top;
+                const targetY = offsetTop - imageRect.height / 2;
 
                 gsap.to(imageContainer.current, {
-                    y: offsetTop - imageRect.height / 2,
-                    duration: 1,
-                    opacity: 1,
+                    y: targetY,
+                    duration: 0.35,
+                    ease: 'power2.out',
+                    overwrite: 'auto',
                 });
-            }) as any;
+            };
 
             window.addEventListener('mousemove', handleMouseMove);
 
@@ -84,7 +71,7 @@ const ProjectList = () => {
                 window.removeEventListener('mousemove', handleMouseMove);
             };
         },
-        { scope: containerRef, dependencies: [containerRef.current, selectedProject] },
+        { scope: containerRef },
     );
 
     useGSAP(
@@ -118,14 +105,39 @@ const ProjectList = () => {
             setSelectedProject(null);
             if (imageContainer.current) {
                 gsap.to(imageContainer.current, {
-                    duration: 0.2,
                     opacity: 0,
+                    scale: 0.95,
+                    duration: 0.2,
+                    ease: 'power2.out',
+                    overwrite: 'auto',
                 });
             }
             return;
         }
 
         setSelectedProject(slug);
+        if (imageContainer.current) {
+            gsap.to(imageContainer.current, {
+                opacity: 1,
+                scale: 1,
+                duration: 0.3,
+                ease: 'power2.out',
+                overwrite: 'auto',
+            });
+        }
+    };
+
+    const handleMouseLeave = () => {
+        setSelectedProject(null);
+        if (imageContainer.current) {
+            gsap.to(imageContainer.current, {
+                opacity: 0,
+                scale: 0.95,
+                duration: 0.25,
+                ease: 'power2.out',
+                overwrite: 'auto',
+            });
+        }
     };
 
     return (
@@ -134,39 +146,52 @@ const ProjectList = () => {
                 <SectionTitle title="SELECTED PROJECTS" />
 
                 <div className="group/projects relative" ref={containerRef}>
-                    {selectedProject !== null && (
-                        <div
-                            className={cn(
-                                "max-md:hidden absolute right-0 top-0 z-[1] pointer-events-none overflow-hidden opacity-0 transition-[width,height] duration-300 w-[350px] xl:w-[650px] aspect-[16/10] rounded-xl"
-                            )}
-                            ref={imageContainer}
-                        >
+                    {/* Floating Preview Card with Sleek Border Frame */}
+                    <div
+                        className={cn(
+                            'max-md:hidden absolute right-0 top-0 z-20 pointer-events-none opacity-0 transition-[width,height] duration-300 w-[350px] xl:w-[620px] aspect-[16/10] rounded-2xl p-2.5 bg-background/90 backdrop-blur-2xl border border-white/20 ring-1 ring-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] overflow-hidden',
+                        )}
+                        ref={imageContainer}
+                    >
+                        {/* Top subtle highlight shimmer border */}
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent pointer-events-none" />
+
+                        {/* Inner framed display */}
+                        <div className="relative w-full h-full rounded-xl overflow-hidden bg-black/40 border border-white/5 flex items-center justify-center">
                             {PROJECTS.filter((p) => Boolean(p.thumbnail)).map(
                                 (project) => (
-                                    <Image
-                                        src={project.thumbnail!}
-                                        alt="Project"
-                                        width="500"
-                                        height="500"
+                                    <div
+                                        key={project.slug}
                                         className={cn(
-                                            'absolute inset-0 transition-all duration-500 w-full h-full object-contain',
+                                            'absolute inset-0 transition-all duration-300 ease-out flex items-center justify-center p-3',
                                             {
-                                                'opacity-0':
+                                                'opacity-100 scale-100 pointer-events-auto':
+                                                    project.slug ===
+                                                    selectedProject,
+                                                'opacity-0 scale-95 pointer-events-none':
                                                     project.slug !==
                                                     selectedProject,
                                             },
                                         )}
-                                        ref={imageRef}
-                                        key={project.slug}
-                                    />
+                                    >
+                                        <Image
+                                            src={project.thumbnail!}
+                                            alt={project.title}
+                                            width={600}
+                                            height={400}
+                                            className="w-full h-full object-contain rounded-lg drop-shadow-md"
+                                            priority={project.slug === 'squibl'}
+                                        />
+                                    </div>
                                 ),
                             )}
                         </div>
-                    )}
+                    </div>
 
                     <div
                         className="flex flex-col max-md:gap-10"
                         ref={projectListRef}
+                        onMouseLeave={handleMouseLeave}
                     >
                         {PROJECTS.map((project, index) => (
                             <Project
@@ -174,6 +199,7 @@ const ProjectList = () => {
                                 project={project}
                                 selectedProject={selectedProject}
                                 onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
                                 key={project.slug}
                             />
                         ))}

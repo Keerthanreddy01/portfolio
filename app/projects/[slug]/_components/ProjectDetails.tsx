@@ -81,12 +81,20 @@ const ProjectDetails = ({ project }: Props) => {
                     id="info"
                 >
                     <div className="relative w-full">
-                        <div className="flex items-start gap-6 mx-auto mb-10 max-w-[635px]">
-                            <h1 className="fade-in-later opacity-0 text-4xl md:text-[60px] leading-none font-anton overflow-hidden">
-                                <span className="inline-block">
-                                    {project.title}
-                                </span>
-                            </h1>
+                        <div className="flex flex-wrap items-center justify-between gap-4 mx-auto mb-10 max-w-[635px]">
+                            <div className="flex flex-wrap items-center gap-4">
+                                <h1 className="fade-in-later opacity-0 text-4xl md:text-[60px] leading-none font-anton overflow-hidden">
+                                    <span className="inline-block">
+                                        {project.title}
+                                    </span>
+                                </h1>
+                                {project.status && (
+                                    <span className="fade-in-later opacity-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-sans font-medium bg-primary/10 text-primary border border-primary/20 backdrop-blur-sm">
+                                        <span className="size-1.5 rounded-full bg-primary animate-pulse" />
+                                        {project.status}
+                                    </span>
+                                )}
+                            </div>
 
                             <div className="fade-in-later opacity-0 flex gap-2">
                                 {project.sourceCode && (

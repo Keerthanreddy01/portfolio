@@ -126,30 +126,38 @@ const Project = ({ index, project, selectedProject, onMouseEnter }: Props) => {
                     _{(index + 1).toString().padStart(2, '0')}.
                 </div>
                 <div className="">
-                    <h4 className="text-4xl xs:text-6xl flex gap-4 font-anton transition-all duration-700 bg-gradient-to-r from-primary to-foreground from-[50%] to-[50%] bg-[length:200%] bg-right bg-clip-text text-transparent group-hover:bg-left">
-                        {project.title}
-                        <span className="text-foreground opacity-0 group-hover:opacity-100 transition-all">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="36"
-                                height="36"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                ref={externalLinkSVGRef}
-                            >
-                                <path
-                                    id="box"
-                                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-                                ></path>
-                                <path id="arrow-line" d="M10 14 21 3"></path>
-                                <path id="arrow-curb" d="M15 3h6v6"></path>
-                            </svg>
-                        </span>
-                    </h4>
+                    <div className="flex flex-wrap items-center gap-3">
+                        <h4 className="text-4xl xs:text-6xl flex gap-4 font-anton transition-all duration-700 bg-gradient-to-r from-primary to-foreground from-[50%] to-[50%] bg-[length:200%] bg-right bg-clip-text text-transparent group-hover:bg-left">
+                            {project.title}
+                            <span className="text-foreground opacity-0 group-hover:opacity-100 transition-all">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="36"
+                                    height="36"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    ref={externalLinkSVGRef}
+                                >
+                                    <path
+                                        id="box"
+                                        d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                                    ></path>
+                                    <path id="arrow-line" d="M10 14 21 3"></path>
+                                    <path id="arrow-curb" d="M15 3h6v6"></path>
+                                </svg>
+                            </span>
+                        </h4>
+                        {project.status && (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-sans font-medium bg-primary/10 text-primary border border-primary/20 backdrop-blur-sm">
+                                <span className="size-1.5 rounded-full bg-primary animate-pulse" />
+                                {project.status}
+                            </span>
+                        )}
+                    </div>
                     {project.sourceCode && (
                         <button
                             type="button"

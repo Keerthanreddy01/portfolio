@@ -147,10 +147,10 @@ export const PROJECTS: IProject[] = [
             'Node.js',
             'Reanimated 3',
         ],
-        thumbnail: '/projects/thumbnail/collabsphere.webp',
-        longThumbnail: '/projects/long/collabsphere.webp',
+        thumbnail: '/projects/thumbnail/squibl.webp',
+        longThumbnail: '/projects/long/squibl.webp',
         images: [
-            '/projects/images/collabsphere-1.webp',
+            '/projects/images/squibl-1.webp',
         ],
     },
     {

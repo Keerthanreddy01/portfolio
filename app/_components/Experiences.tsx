@@ -115,12 +115,12 @@ const Experiences = () => {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: expRef.current,
-                    start: 'bottom 50%',
-                    end: 'bottom 20%',
+                    start: 'bottom 30%',
+                    end: 'bottom 0%',
                     scrub: 1,
                 },
             });
-            tl.to(expRef.current, { y: -150, opacity: 0 });
+            tl.to(expRef.current, { y: -60, opacity: 0 });
         },
         { scope: expRef },
     );
@@ -131,13 +131,13 @@ const Experiences = () => {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: eduRef.current,
-                    start: 'top 60%',
-                    end: 'bottom 50%',
+                    start: 'top 75%',
+                    end: 'top 40%',
                     toggleActions: 'restart none none reverse',
                     scrub: 1,
                 },
             });
-            tl.from('.education-item', { y: 50, opacity: 0, stagger: 0.3 });
+            tl.from('.education-item', { y: 40, opacity: 0, stagger: 0.3 });
         },
         { scope: eduRef },
     );
@@ -148,12 +148,12 @@ const Experiences = () => {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: eduRef.current,
-                    start: 'bottom 50%',
-                    end: 'bottom 20%',
+                    start: 'bottom 40%',
+                    end: 'bottom 10%',
                     scrub: 1,
                 },
             });
-            tl.to(eduRef.current, { y: -150, opacity: 0 });
+            tl.to(eduRef.current, { y: -80, opacity: 0 });
         },
         { scope: eduRef },
     );
@@ -161,7 +161,7 @@ const Experiences = () => {
     return (
         <>
             {/* ── Experience ── */}
-            <section className="py-section" id="my-experience">
+            <section className="pt-section pb-12 md:pb-16" id="my-experience">
                 <div className="container" ref={expRef}>
                     <SectionTitle title="My Experience" />
                     <div className="grid gap-14">
@@ -177,7 +177,7 @@ const Experiences = () => {
             </section>
 
             {/* ── Education ── */}
-            <section className="pb-section" id="my-education">
+            <section className="pt-6 md:pt-10 pb-section" id="my-education">
                 <div className="container" ref={eduRef}>
                     <SectionTitle title="My Education" />
                     <div className="grid gap-14">

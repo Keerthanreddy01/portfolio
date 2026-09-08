@@ -294,6 +294,48 @@ export const PROJECTS: IProject[] = [
             '/projects/images/fillora-1.webp',
         ],
     },
+    {
+        title: 'Veyro',
+        slug: 'veyro',
+        status: 'Currently Working On It',
+        year: 2026,
+        description: `
+      Veyro is an upcoming next-generation platform currently in active development. Engineered to unify intelligent workflows, automated intelligence, and developer productivity into an ultra-fast, seamless digital experience. <br/> <br/>
+
+      Key Highlights (In Progress):<br/>
+      <ul>
+        <li>⚡ High-Performance Core: Engineered with modern full-stack web technologies for low latency and high scalability</li>
+        <li>🧠 Intelligent Workflows: AI-driven workflow engine tailored for automation and intelligent assistance</li>
+        <li>🎨 Modern Glassmorphism UI: Crafted with responsive design, fluid micro-interactions, and dark mode aesthetics</li>
+        <li>🔒 Cloud-Ready Architecture: Built with modular services, secure authentication, and real-time synchronization</li>
+      </ul><br/>
+
+      Technical Highlights:
+      <ul>
+        <li>Modern full-stack architecture built with Next.js and TypeScript</li>
+        <li>High-throughput backend services using FastAPI and Python</li>
+        <li>Real-time event streaming and state management</li>
+        <li>Responsive design system optimized for all device form factors</li>
+      </ul>
+      `,
+        role: `
+      Founder & Lead Architect <br/>
+      Leading overall product vision, system architecture, UI/UX engineering, and full-stack implementation.
+      `,
+        techStack: [
+            'Next.js',
+            'TypeScript',
+            'Tailwind CSS',
+            'FastAPI',
+            'Python',
+            'PostgreSQL',
+        ],
+        thumbnail: '/projects/thumbnail/veyro.webp',
+        longThumbnail: '/projects/long/veyro.webp',
+        images: [
+            '/projects/images/veyro-1.webp',
+        ],
+    },
 ];
 
 export const MY_EXPERIENCE = [

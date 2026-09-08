@@ -140,6 +140,13 @@ const ProjectList = () => {
         }
     };
 
+    const activeProject = PROJECTS.find(
+        (p) =>
+            p.slug === selectedProject &&
+            p.slug !== 'veyro' &&
+            Boolean(p.thumbnail),
+    );
+
     return (
         <section className="pb-section" id="selected-projects">
             <div className="container">
@@ -152,38 +159,26 @@ const ProjectList = () => {
                             'max-md:hidden absolute right-0 top-0 z-20 pointer-events-none opacity-0 transition-[width,height] duration-300 w-[350px] xl:w-[620px] aspect-[16/10] rounded-2xl p-2.5 bg-background/90 backdrop-blur-2xl border border-white/20 ring-1 ring-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] overflow-hidden',
                         )}
                         ref={imageContainer}
+                        style={{
+                            display: activeProject ? 'block' : 'none',
+                        }}
                     >
                         {/* Top subtle highlight shimmer border */}
                         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent pointer-events-none" />
 
                         {/* Inner framed display */}
                         <div className="relative w-full h-full rounded-xl overflow-hidden bg-black/40 border border-white/5 flex items-center justify-center">
-                            {PROJECTS.filter((p) => Boolean(p.thumbnail)).map(
-                                (project) => (
-                                    <div
-                                        key={project.slug}
-                                        className={cn(
-                                            'absolute inset-0 transition-all duration-300 ease-out flex items-center justify-center p-3',
-                                            {
-                                                'opacity-100 scale-100 pointer-events-auto':
-                                                    project.slug ===
-                                                    selectedProject,
-                                                'opacity-0 scale-95 pointer-events-none':
-                                                    project.slug !==
-                                                    selectedProject,
-                                            },
-                                        )}
-                                    >
-                                        <Image
-                                            src={project.thumbnail!}
-                                            alt={project.title}
-                                            width={600}
-                                            height={400}
-                                            className="w-full h-full object-contain rounded-lg drop-shadow-md"
-                                            priority={project.slug === 'squibl'}
-                                        />
-                                    </div>
-                                ),
+                            {activeProject && activeProject.thumbnail && (
+                                <div className="absolute inset-0 flex items-center justify-center p-3 animate-in fade-in duration-200">
+                                    <Image
+                                        src={activeProject.thumbnail}
+                                        alt={activeProject.title}
+                                        width={600}
+                                        height={400}
+                                        className="w-full h-full object-contain rounded-lg drop-shadow-md"
+                                        priority
+                                    />
+                                </div>
                             )}
                         </div>
                     </div>

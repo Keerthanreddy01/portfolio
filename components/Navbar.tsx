@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { MoveUpRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { GENERAL_INFO, SOCIAL_LINKS } from '@/lib/data';
+import { GENERAL_INFO, GMAIL_URL, SOCIAL_LINKS } from '@/lib/data';
 
 const COLORS = [
     'bg-yellow-500 text-black',
@@ -148,7 +148,12 @@ const Navbar = () => {
 
                 <div className="w-full max-w-[300px] mx-8 sm:mx-auto">
                     <p className="text-muted-foreground mb-4">GET IN TOUCH</p>
-                    <a href={`mailto:${GENERAL_INFO.email}`}>
+                    <a
+                        href={GMAIL_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline hover:text-primary transition-colors"
+                    >
                         {GENERAL_INFO.email}
                     </a>
                 </div>

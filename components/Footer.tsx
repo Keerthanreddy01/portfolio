@@ -1,4 +1,4 @@
-import { GENERAL_INFO } from '@/lib/data';
+import { GENERAL_INFO, GMAIL_URL } from '@/lib/data';
 import { GitFork, Star } from 'lucide-react';
 
 interface RepoStats {
@@ -16,7 +16,7 @@ const Footer = async () => {
         },
     );
 
-    const stats = await repoStats.json() as RepoStats;
+    const stats = (await repoStats.json()) as RepoStats;
     const stargazers_count = stats?.stargazers_count ?? 0;
     const forks_count = stats?.forks_count ?? 0;
 
@@ -25,8 +25,10 @@ const Footer = async () => {
             <div className="container">
                 <p className="text-lg">Have a project in mind?</p>
                 <a
-                    href={`mailto:${GENERAL_INFO.email}`}
-                    className="text-3xl sm:text-4xl font-anton inline-block mt-5 mb-10 hover:underline"
+                    href={GMAIL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-3xl sm:text-4xl font-anton inline-block mt-5 mb-10 hover:underline hover:text-primary transition-colors"
                 >
                     {GENERAL_INFO.email}
                 </a>

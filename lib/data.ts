@@ -9,6 +9,12 @@ export const GENERAL_INFO = {
     linkedinProfile: 'https://www.linkedin.com/in/keerthan-reddy-71a5b5370',
 };
 
+export const GMAIL_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+    GENERAL_INFO.email,
+)}&su=${encodeURIComponent(GENERAL_INFO.emailSubject)}&body=${encodeURIComponent(
+    GENERAL_INFO.emailBody,
+)}`;
+
 export const SOCIAL_LINKS = [
     { name: 'github', url: 'https://github.com/Keerthanreddy01' },
     { name: 'linkedin', url: 'https://www.linkedin.com/in/keerthan-reddy-71a5b5370' },
